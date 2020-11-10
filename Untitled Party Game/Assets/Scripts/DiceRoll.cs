@@ -19,9 +19,10 @@ public class DiceRoll : MonoBehaviour
 
 
 
-    public void TurnStart()
+    public void RollStart()
     {
         DiceRolled = false;
+        GetComponent<Text>().enabled = true;
     }
 
     void Update()
@@ -29,11 +30,11 @@ public class DiceRoll : MonoBehaviour
         if (!DiceRolled)
         {
             GenerateNumber();
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetAxis("RollDicePlayer1") > 0)
             {
                 DiceRolled = true;
                 onDiceRoll.Invoke(Value);
-                Invoke("HideDice", 2f);
+            
             }
         }
         else
@@ -43,7 +44,14 @@ public class DiceRoll : MonoBehaviour
 
     }
 
-    private void HideDice()
+    public void ChangeValue (int i)
+    {
+        Value = i;
+        GetComponent<Text>().text = Value.ToString();
+    }
+
+
+    public void HideDice()
     {
         GetComponent<Text>().enabled = false;
     }
