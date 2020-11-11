@@ -6,43 +6,36 @@ using UnityEngine.UI;
 using Random = UnityEngine.Random;
 using UnityEngine.Events;
 
-[System.Serializable]
-public class OnDiceRoll : UnityEvent<int> { }
 
 
 public class DiceRoll : MonoBehaviour
 {
-
-    private bool DiceRolled = false;
-    public OnDiceRoll onDiceRoll;
+    private Boolean diceRolled = false;
     private int Value;
-
-
-
-    public void RollStart()
-    {
-        DiceRolled = false;
-        GetComponent<Text>().enabled = true;
-    }
 
     void Update()
     {
-        if (!DiceRolled)
-        {
-            GenerateNumber();
-            if (Input.GetAxis("RollDicePlayer1") > 0)
-            {
-                DiceRolled = true;
-                onDiceRoll.Invoke(Value);
-            
-            }
-        }
-        else
-        {
-
-        }
-
+        if (!diceRolled) GenerateNumber();    
     }
+
+    public void NewTurn()
+    {
+        GetComponent<Text>().enabled = true;
+        diceRolled = false;
+    }
+
+    public void DiceRolled(int v)
+    {
+        diceRolled = true;
+        Value = v;
+        GetComponent<Text>().text = Value.ToString();
+    }
+
+    private void GenerateNumber()
+    {
+        GetComponent<Text>().text = Random.Range(1, 7).ToString();
+    }
+
 
     public void ChangeValue (int i)
     {
@@ -57,10 +50,5 @@ public class DiceRoll : MonoBehaviour
     }
 
 
-    private void GenerateNumber()
-    {
-        Value = Random.Range(1, 7);
-        GetComponent<Text>().text = Value.ToString();
-    }
 }
 

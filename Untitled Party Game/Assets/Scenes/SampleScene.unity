@@ -135,12 +135,72 @@ PrefabInstance:
       value: Player Two
       objectReference: {fileID: 0}
     - target: {fileID: 8370599251689749652, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
+      propertyPath: onDiceRoll.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8370599251689749652, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
       propertyPath: PlayerLocation
       value: 
       objectReference: {fileID: 569999458}
+    - target: {fileID: 8370599251689749652, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
+      propertyPath: onValueChange.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1625385967}
+    - target: {fileID: 8370599251689749652, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
+      propertyPath: onValueChange.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ChangeValue
+      objectReference: {fileID: 0}
+    - target: {fileID: 8370599251689749652, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
+      propertyPath: OnMoveComplete.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 304182252}
+    - target: {fileID: 8370599251689749652, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
+      propertyPath: OnMoveComplete.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: EndOfGo
+      objectReference: {fileID: 0}
+    - target: {fileID: 8370599251689749652, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
+      propertyPath: OnMoveComplete.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1625385967}
+    - target: {fileID: 8370599251689749652, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
+      propertyPath: OnMoveComplete.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: HideDice
+      objectReference: {fileID: 0}
+    - target: {fileID: 8370599251689749652, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
+      propertyPath: PlayerNumber
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8370599251689749652, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
+      propertyPath: onDiceRoll.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8370599251689749652, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
+      propertyPath: onDiceRoll.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8370599251689749652, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
+      propertyPath: onDiceRoll.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1625385967}
+    - target: {fileID: 8370599251689749652, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
+      propertyPath: onDiceRoll.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: DiceRoll, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8370599251689749652, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
+      propertyPath: onDiceRoll.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: DiceRolled
+      objectReference: {fileID: 0}
+    - target: {fileID: 8370599251689749652, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
+      propertyPath: onDiceRoll.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 8370599251689749652, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8370599251689749655, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4
+      value: 0.41
       objectReference: {fileID: 0}
     - target: {fileID: 8370599251689749655, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
       propertyPath: m_LocalPosition.y
@@ -148,7 +208,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8370599251689749655, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8370599251689749655, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
       propertyPath: m_LocalRotation.x
@@ -206,12 +266,72 @@ PrefabInstance:
       value: Player One
       objectReference: {fileID: 0}
     - target: {fileID: 8370599251689749652, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
+      propertyPath: onDiceRoll.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8370599251689749652, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
       propertyPath: PlayerLocation
       value: 
       objectReference: {fileID: 569999458}
+    - target: {fileID: 8370599251689749652, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
+      propertyPath: OnMoveComplete.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1625385967}
+    - target: {fileID: 8370599251689749652, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
+      propertyPath: OnMoveComplete.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: HideDice
+      objectReference: {fileID: 0}
+    - target: {fileID: 8370599251689749652, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
+      propertyPath: OnMoveComplete.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: DiceRoll, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8370599251689749652, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
+      propertyPath: OnMoveComplete.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 304182252}
+    - target: {fileID: 8370599251689749652, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
+      propertyPath: OnMoveComplete.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: EndOfGo
+      objectReference: {fileID: 0}
+    - target: {fileID: 8370599251689749652, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
+      propertyPath: onValueChange.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1625385967}
+    - target: {fileID: 8370599251689749652, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
+      propertyPath: onValueChange.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ChangeValue
+      objectReference: {fileID: 0}
+    - target: {fileID: 8370599251689749652, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
+      propertyPath: onDiceRoll.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8370599251689749652, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
+      propertyPath: onDiceRoll.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8370599251689749652, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
+      propertyPath: PlayerNumber
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8370599251689749652, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
+      propertyPath: onDiceRoll.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1625385967}
+    - target: {fileID: 8370599251689749652, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
+      propertyPath: onDiceRoll.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: DiceRoll, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8370599251689749652, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
+      propertyPath: onDiceRoll.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: DiceRolled
+      objectReference: {fileID: 0}
+    - target: {fileID: 8370599251689749652, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
+      propertyPath: onDiceRoll.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 8370599251689749655, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4
+      value: -0.44
       objectReference: {fileID: 0}
     - target: {fileID: 8370599251689749655, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
       propertyPath: m_LocalPosition.y
@@ -219,7 +339,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8370599251689749655, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8370599251689749655, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
       propertyPath: m_LocalRotation.x
@@ -580,6 +700,10 @@ MonoBehaviour:
   Players:
   - {fileID: 45994860}
   - {fileID: 16879729}
+  c: {fileID: 963194227}
+  CurrentPlayer: {fileID: 0}
+  CurrentPlayerValue: 0
+  NoPlayers: 2
   DiceRoll: {fileID: 1625385965}
 --- !u!1001 &343393723
 PrefabInstance:
@@ -1452,7 +1576,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c7b4b8f21a379f418ca6324fe32a417, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Target: {fileID: 0}
+  Target: {fileID: 45994860}
 --- !u!1001 &988317748
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1842,7 +1966,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1359964025}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
   m_Name: 
@@ -2220,21 +2344,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98545599e3df73f46bf40759028417ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onDiceRoll:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Player, Assembly-CSharp
-        m_MethodName: MovePlayer
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!1 &1785547163
 GameObject:
   m_ObjectHideFlags: 0

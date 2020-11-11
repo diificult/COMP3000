@@ -109,7 +109,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60f6b46b77166ad4bbe44470ac5ff933, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerLocation: {fileID: 0}
+  PlayerLocation: {fileID: 2902314919251114591, guid: d0ff2bcd7e4e3fe45a84228b91476259, type: 3}
   OnMoveComplete:
     m_PersistentCalls:
       m_Calls:

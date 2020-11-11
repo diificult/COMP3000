@@ -5,6 +5,9 @@ using UnityEngine.Events;
 [System.Serializable]
 public class OnValueChange : UnityEvent<int> { }
 
+[System.Serializable]
+public class OnDiceRoll : UnityEvent<int> { }
+
 public class Player : MonoBehaviour
 {
 
@@ -16,11 +19,31 @@ public class Player : MonoBehaviour
 
     private int MovesLeft;
 
-    public void MovePlayer(int roll)
+    private bool DiceRolled = false;
+
+    public OnDiceRoll onDiceRoll;
+
+    [SerializeField]
+    private int PlayerNumber;
+
+    private void OnEnable()
     {
-        MovesLeft = roll;
-        Move();
-        
+        DiceRolled = false;
+    }
+
+    public void Update()
+    {
+        if (!DiceRolled)
+        {
+            
+            if (Input.GetAxis("RollDicePlayer"+PlayerNumber) > 0)
+            {
+                DiceRolled = true;
+                MovesLeft = Random.Range(1, 7);
+                onDiceRoll.Invoke(MovesLeft);
+                Move();
+            }
+        }
     }
 
     private void Move()

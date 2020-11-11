@@ -4,17 +4,15 @@ using UnityEngine.UI;
 public class GameController : MonoBehaviour
 {
 
-    private int GameState = 2;
-    // 0 = Pre-Game
-    // 1 = Player Choice
-    // 2 = Player Dice Roll
-    // 3 = Player Moving
-
     [SerializeField]
     private GameObject[] Players;
 
+    public Camera c;
+    [SerializeField]
     private GameObject CurrentPlayer;
+    [SerializeField]
     private int CurrentPlayerValue;
+    [SerializeField]
     private int NoPlayers = 2;
 
     [SerializeField]
@@ -28,23 +26,22 @@ public class GameController : MonoBehaviour
 
     public void EndOfGo()
     {
+        CurrentPlayer.GetComponent<Player>().enabled = false;
         CurrentPlayerValue++;
+        
         if (CurrentPlayerValue == NoPlayers)
         {
             CurrentPlayerValue = 0;
         }
         CurrentPlayer = Players[CurrentPlayerValue];
-        DiceRoll.transform.SendMessage("RollStart");
+        c.GetComponent<CameraMovement>().Target = CurrentPlayer;
+        CurrentPlayer.GetComponent<Player>().enabled = true;
+        DiceRoll.transform.SendMessage("NewTurn", SendMessageOptions.DontRequireReceiver);
     }
 
     public int GetPlayerValue()
     {
         return CurrentPlayerValue;
-    }
-
-    public void DiceRolled(int Roll)
-    {
-        CurrentPlayer.transform.SendMessage("MovePlayer", Roll);
     }
 
 }
