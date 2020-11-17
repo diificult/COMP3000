@@ -14,6 +14,9 @@ public class GameController : MonoBehaviour
     private int[] PreGameRolls;
 
     public Camera c;
+    public GameObject Cine;
+    //public CinemachineVirtualCamera vcam;
+
     [SerializeField]
     private GameObject CurrentPlayer;
     [SerializeField]
@@ -98,6 +101,7 @@ public class GameController : MonoBehaviour
         CurrentPlayer = RollOrder[PlayersGo];
         c.GetComponent<CameraMovement>().Target = CurrentPlayer;
         CurrentPlayer.GetComponent<Player>().allowedToRoll();
+        //Cine.GetComponent<CinemachineVirtualCamera>().
         DiceRoll.transform.SendMessage("NewTurn", SendMessageOptions.DontRequireReceiver);
     }
 
