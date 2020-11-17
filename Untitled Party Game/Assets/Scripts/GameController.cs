@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class GameController : MonoBehaviour
 {
@@ -7,41 +8,102 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private GameObject[] Players;
 
+    [SerializeField]
+    private GameObject[] RollOrder;
+
+    private int[] PreGameRolls;
+
     public Camera c;
     [SerializeField]
     private GameObject CurrentPlayer;
     [SerializeField]
-    private int CurrentPlayerValue;
+    private int PlayersGo;
     [SerializeField]
     private int NoPlayers = 2;
+
+    private int toRoll;
 
     [SerializeField]
     private Text DiceRoll;
 
+    [SerializeField]
+    private GameObject TurnUI;
+
+    [SerializeField]
+    private UnityEvent PositionsDecided; 
+
     void Start()
     {
-        CurrentPlayer = Players[0];
+        PreGameRoll();
+    }
+
+    private void PreGameRoll()
+    {
+        toRoll = NoPlayers;
+        PreGameRolls = new int[NoPlayers];
+        RollOrder = new GameObject[NoPlayers];
+        foreach (GameObject p in Players) {
+            p.GetComponentInChildren<PositionDiceRoll>().enabled = true;
+        }
+    }
+
+    public void PreGameRolled(int PlayerNo, int Value)
+    {
+        toRoll--;
+        PreGameRolls[PlayerNo -1] = Value;
+        if (toRoll == 0)
+        { 
+            
+            for (int i = 0; i < PreGameRolls.Length; i++)
+            {
+                int Position=0;
+                
+                for (int j = 0; j < PreGameRolls.Length; j++)
+                {
+                    if(i != j)
+                    {
+                        if (PreGameRolls[j] > PreGameRolls[i])
+                        {
+                            Position++;
+                        } else if (PreGameRolls[j] == PreGameRolls[i])
+                        {
+                            if (j > i) Position++;
+                        }
+                    }
+                }
+                RollOrder[Position] = Players[i];
+            }
+            PositionsDecided.Invoke();
+            StartGame();
+        }
+      
+    } 
+
+    public void StartGame()
+    {
+        TurnUI.SetActive(true);
+        CurrentPlayer = RollOrder[0];
+        CurrentPlayer.GetComponent<Player>().allowedToRoll();
     }
 
 
     public void EndOfGo()
     {
-        CurrentPlayer.GetComponent<Player>().enabled = false;
-        CurrentPlayerValue++;
-        
-        if (CurrentPlayerValue == NoPlayers)
+        PlayersGo++;
+        if (PlayersGo == NoPlayers)
         {
-            CurrentPlayerValue = 0;
+            PlayersGo = 0;
         }
-        CurrentPlayer = Players[CurrentPlayerValue];
+        Debug.Log("" + PlayersGo);
+        CurrentPlayer = RollOrder[PlayersGo];
         c.GetComponent<CameraMovement>().Target = CurrentPlayer;
-        CurrentPlayer.GetComponent<Player>().enabled = true;
+        CurrentPlayer.GetComponent<Player>().allowedToRoll();
         DiceRoll.transform.SendMessage("NewTurn", SendMessageOptions.DontRequireReceiver);
     }
 
     public int GetPlayerValue()
     {
-        return CurrentPlayerValue;
+        return PlayersGo;
     }
 
 }

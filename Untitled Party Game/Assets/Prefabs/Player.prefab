@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 6917439310013762923}
   - component: {fileID: 943993274845584238}
   - component: {fileID: 7757820507470385773}
+  - component: {fileID: 4019635281722803020}
   m_Layer: 0
-  m_Name: New Text
+  m_Name: Position Dice
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -95,6 +96,18 @@ TextMesh:
   m_Color:
     serializedVersion: 2
     rgba: 4294967295
+--- !u!114 &4019635281722803020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6927151314358910096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f10d907676fd7284881d658d1f6b9ede, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8370599251689749643
 GameObject:
   m_ObjectHideFlags: 0

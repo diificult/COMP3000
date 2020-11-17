@@ -7,6 +7,8 @@ public class OnValueChange : UnityEvent<int> { }
 
 [System.Serializable]
 public class OnDiceRoll : UnityEvent<int> { }
+[System.Serializable]
+public class OnPosDiceRoll : UnityEvent<int, int> { }
 
 public class Player : MonoBehaviour
 {
@@ -17,28 +19,48 @@ public class Player : MonoBehaviour
 
     public OnValueChange onValueChange;
 
+    public OnPosDiceRoll onPosDiceRoll;
+
     private int MovesLeft;
 
-    private bool DiceRolled = false;
+    private bool CanRoll = false;
+
+    public bool PosRolled = false;
 
     public OnDiceRoll onDiceRoll;
 
-    [SerializeField]
-    private int PlayerNumber;
+   // [SerializeField]
+    public int PlayerNumber;
 
-    private void OnEnable()
+    public void allowedToRoll()
     {
-        DiceRolled = false;
+        CanRoll = true;
+        Debug.Log("" + PlayerNumber);
     }
+
+
 
     public void Update()
     {
-        if (!DiceRolled)
+
+        //Potentially inefficency here
+        if (!PosRolled)
         {
-            
-            if (Input.GetAxis("RollDicePlayer"+PlayerNumber) > 0)
+            if (Input.GetAxis("RollDicePlayer" + PlayerNumber) > 0)
             {
-                DiceRolled = true;
+                PosRolled = true;
+                int Roll = Random.Range(1, 7);
+                GetComponentInChildren<PositionDiceRoll>().DiceRolled(Roll);
+                onPosDiceRoll.Invoke(PlayerNumber, Roll);
+
+
+            }
+        }
+        else if (CanRoll)
+        {
+            if (Input.GetAxis("RollDicePlayer" + PlayerNumber) > 0)
+            {
+                CanRoll = false;
                 MovesLeft = Random.Range(1, 7);
                 onDiceRoll.Invoke(MovesLeft);
                 Move();
@@ -48,7 +70,7 @@ public class Player : MonoBehaviour
 
     private void Move()
     {
-        
+
         onValueChange.Invoke(MovesLeft);
         if (MovesLeft > 0)
         {

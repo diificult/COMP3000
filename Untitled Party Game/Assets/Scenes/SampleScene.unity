@@ -139,6 +139,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8370599251689749652, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
+      propertyPath: onPosDiceRoll.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8370599251689749652, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
       propertyPath: PlayerLocation
       value: 
       objectReference: {fileID: 569999458}
@@ -196,7 +200,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8370599251689749652, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
       propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8370599251689749652, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
+      propertyPath: onPosDiceRoll.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8370599251689749652, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
+      propertyPath: onPosDiceRoll.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8370599251689749652, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
+      propertyPath: onPosDiceRoll.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 304182252}
+    - target: {fileID: 8370599251689749652, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
+      propertyPath: onPosDiceRoll.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GameController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8370599251689749652, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
+      propertyPath: onPosDiceRoll.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: PreGameRolled
+      objectReference: {fileID: 0}
+    - target: {fileID: 8370599251689749652, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
+      propertyPath: onPosDiceRoll.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 8370599251689749655, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
       propertyPath: m_LocalPosition.x
@@ -270,6 +298,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8370599251689749652, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
+      propertyPath: onPosDiceRoll.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8370599251689749652, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
       propertyPath: PlayerLocation
       value: 
       objectReference: {fileID: 569999458}
@@ -327,6 +359,30 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8370599251689749652, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
       propertyPath: onDiceRoll.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 8370599251689749652, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
+      propertyPath: onPosDiceRoll.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8370599251689749652, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
+      propertyPath: onPosDiceRoll.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8370599251689749652, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
+      propertyPath: onPosDiceRoll.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 304182252}
+    - target: {fileID: 8370599251689749652, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
+      propertyPath: onPosDiceRoll.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GameController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8370599251689749652, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
+      propertyPath: onPosDiceRoll.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: PreGameRolled
+      objectReference: {fileID: 0}
+    - target: {fileID: 8370599251689749652, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
+      propertyPath: onPosDiceRoll.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 8370599251689749655, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
@@ -403,7 +459,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &56448905
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -700,11 +756,40 @@ MonoBehaviour:
   Players:
   - {fileID: 45994860}
   - {fileID: 16879729}
+  RollOrder: []
   c: {fileID: 963194227}
   CurrentPlayer: {fileID: 0}
-  CurrentPlayerValue: 0
+  PlayersGo: 0
   NoPlayers: 2
   DiceRoll: {fileID: 1625385965}
+  TurnUI: {fileID: 56448904}
+  PositionsDecided:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1370273373}
+        m_TargetAssemblyTypeName: PositionDiceRoll, Assembly-CSharp
+        m_MethodName: done
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 395584408}
+        m_TargetAssemblyTypeName: PositionDiceRoll, Assembly-CSharp
+        m_MethodName: done
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &343393723
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1047,6 +1132,17 @@ Transform:
   m_Father: {fileID: 1987520742}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: -90}
+--- !u!114 &395584408 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4019635281722803020, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
+  m_PrefabInstance: {fileID: 16879727}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f10d907676fd7284881d658d1f6b9ede, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &510316744
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2081,6 +2177,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6439827988617636120, guid: 25321c3b244416c4dbc83ae8e00d814d, type: 3}
   m_PrefabInstance: {fileID: 1360620977}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1370273373 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4019635281722803020, guid: 3444f5d8d7bb2024bb04cd7715b64537, type: 3}
+  m_PrefabInstance: {fileID: 45994858}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f10d907676fd7284881d658d1f6b9ede, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1528566598
 PrefabInstance:
   m_ObjectHideFlags: 0

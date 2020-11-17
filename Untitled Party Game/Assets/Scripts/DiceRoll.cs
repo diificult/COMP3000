@@ -10,7 +10,7 @@ using UnityEngine.Events;
 
 public class DiceRoll : MonoBehaviour
 {
-    private Boolean diceRolled = false;
+    private bool diceRolled = false;
     private int Value;
 
     void Update()
