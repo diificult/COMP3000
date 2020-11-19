@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PositionDiceRoll : MonoBehaviour
 {
@@ -15,7 +16,7 @@ public class PositionDiceRoll : MonoBehaviour
 
     private void GenerateNumber()
     {
-        GetComponent<TextMesh>().text = Random.Range(1, 7).ToString();
+        GetComponent<TextMeshPro>().text = Random.Range(1, 7).ToString();
     }
 
 
@@ -24,7 +25,7 @@ public class PositionDiceRoll : MonoBehaviour
     {
         diceRolled = true;
         Value = v;
-        GetComponent<TextMesh>().text = Value.ToString();
+        GetComponent<TextMeshPro>().text = Value.ToString();
     }
 
     public void done ()
