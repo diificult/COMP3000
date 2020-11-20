@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 using Random = UnityEngine.Random;
 using UnityEngine.Events;
 
@@ -20,7 +21,7 @@ public class DiceRoll : MonoBehaviour
 
     public void NewTurn()
     {
-        GetComponent<Text>().enabled = true;
+        GetComponent<TextMeshProUGUI>().enabled = true;
         diceRolled = false;
     }
 
@@ -28,25 +29,25 @@ public class DiceRoll : MonoBehaviour
     {
         diceRolled = true;
         Value = v;
-        GetComponent<Text>().text = Value.ToString();
+        GetComponent<TextMeshProUGUI>().text = Value.ToString();
     }
 
     private void GenerateNumber()
     {
-        GetComponent<Text>().text = Random.Range(1, 7).ToString();
+        GetComponent<TextMeshProUGUI>().text = Random.Range(1, 7).ToString();
     }
 
 
     public void ChangeValue (int i)
     {
         Value = i;
-        GetComponent<Text>().text = Value.ToString();
+        GetComponent<TextMeshProUGUI>().text = Value.ToString();
     }
 
 
     public void HideDice()
     {
-        GetComponent<Text>().enabled = false;
+        GetComponent<TextMeshProUGUI>().enabled = false;
     }
 
 

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using TMPro;
 using Cinemachine;
 
 public class GameController : MonoBehaviour
@@ -28,7 +29,10 @@ public class GameController : MonoBehaviour
     private int toRoll;
 
     [SerializeField]
-    private Text DiceRoll;
+    private TextMeshProUGUI DiceRoll;
+
+    [SerializeField]
+    private TextMeshProUGUI TurnText;
 
     [SerializeField]
     private GameObject TurnUI;
@@ -99,10 +103,25 @@ public class GameController : MonoBehaviour
             PlayersGo = 0;
         }
         CurrentPlayer = RollOrder[PlayersGo];
-        c.GetComponent<CameraMovement>().Target = CurrentPlayer;
-        CurrentPlayer.GetComponent<Player>().allowedToRoll();
+        //Old Camera Script
+       // c.GetComponent<CameraMovement>().Target = CurrentPlayer;
         vcam.Follow = CurrentPlayer.transform;
-        vcam.LookAt = CurrentPlayer.transform;
+        vcam.LookAt = CurrentPlayer.transform;        
+        TurnText.fontSharedMaterial.SetColor(ShaderUtilities.ID_GlowColor, CurrentPlayer.GetComponent<Player>().PlayerColour);
+
+        TurnText.text = "PLAYER " + CurrentPlayer.GetComponent<Player>().PlayerNumber + " TURN" ;        
+       // TurnText.ForceMeshUpdate();
+        //TurnText.UpdateFontAsset();
+        TurnText.enabled = true;
+        Invoke("HideTurnText", 2f);
+       
+    }
+
+    public void HideTurnText()
+    {
+
+        CurrentPlayer.GetComponent<Player>().allowedToRoll();
+        TurnText.enabled = false;
         DiceRoll.transform.SendMessage("NewTurn", SendMessageOptions.DontRequireReceiver);
     }
 

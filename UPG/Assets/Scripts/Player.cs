@@ -25,17 +25,19 @@ public class Player : MonoBehaviour
 
     private bool CanRoll = false;
 
-    public bool PosRolled = false;
+    private bool PosRolled = false;
 
     public OnDiceRoll onDiceRoll;
 
    // [SerializeField]
     public int PlayerNumber;
 
+    public Color PlayerColour;
+
+
     public void allowedToRoll()
     {
         CanRoll = true;
-        Debug.Log("" + PlayerNumber);
     }
 
 
