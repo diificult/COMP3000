@@ -13,6 +13,9 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private GameObject[] RollOrder;
 
+    [SerializeField]
+    private Image[] PosIndicators;
+
     private int[] PreGameRolls;
 
     public Camera c;
@@ -26,6 +29,8 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private int NoPlayers = 2;
 
+    private int TurnNumber = 1;
+
     private int toRoll;
 
     [SerializeField]
@@ -35,10 +40,15 @@ public class GameController : MonoBehaviour
     private TextMeshProUGUI TurnText;
 
     [SerializeField]
+    private TextMeshProUGUI TurnNumberText;
+
+    [SerializeField]
     private GameObject TurnUI;
 
     [SerializeField]
-    private UnityEvent PositionsDecided; 
+    private UnityEvent PositionsDecided;
+
+    public GameObject ViewPosition; 
 
     void Start()
     {
@@ -80,7 +90,13 @@ public class GameController : MonoBehaviour
                     }
                 }
                 RollOrder[Position] = Players[i];
+                Color c = Players[Position].GetComponent<Player>().PlayerColour;
+                c.a = 255;
+                PosIndicators[Position].color = c;
+                PosIndicators[Position].enabled = false;
+                PosIndicators[Position].enabled = true;
             }
+            
             PositionsDecided.Invoke();
             StartGame();
         }
@@ -91,7 +107,15 @@ public class GameController : MonoBehaviour
     {
         TurnUI.SetActive(true);
         CurrentPlayer = RollOrder[0];
-        CurrentPlayer.GetComponent<Player>().allowedToRoll();
+        vcam.Follow = CurrentPlayer.transform;
+        vcam.LookAt = CurrentPlayer.transform;
+        TurnText.fontSharedMaterial.SetColor(ShaderUtilities.ID_GlowColor, CurrentPlayer.GetComponent<Player>().PlayerColour);
+        // TurnText.ForceMeshUpdate();
+        //TurnText.UpdateFontAsset();
+        TurnText.text = "PLAYER " + CurrentPlayer.GetComponent<Player>().PlayerNumber + " STARTS";
+
+        TurnText.enabled = true;
+        Invoke("HideTurnText", 2f);
     }
 
 
@@ -101,20 +125,37 @@ public class GameController : MonoBehaviour
         if (PlayersGo == NoPlayers)
         {
             PlayersGo = 0;
-        }
-        CurrentPlayer = RollOrder[PlayersGo];
-        //Old Camera Script
-       // c.GetComponent<CameraMovement>().Target = CurrentPlayer;
-        vcam.Follow = CurrentPlayer.transform;
-        vcam.LookAt = CurrentPlayer.transform;        
-        TurnText.fontSharedMaterial.SetColor(ShaderUtilities.ID_GlowColor, CurrentPlayer.GetComponent<Player>().PlayerColour);
+            TurnNumber++;        
+            CurrentPlayer = RollOrder[PlayersGo];
+        vcam.Follow = ViewPosition.transform;
+        vcam.LookAt = ViewPosition.transform;
 
-        TurnText.text = "PLAYER " + CurrentPlayer.GetComponent<Player>().PlayerNumber + " TURN" ;        
-       // TurnText.ForceMeshUpdate();
+        TurnNumberText.text = "TURN " + TurnNumber;
+        TurnNumberText.enabled = true;   
+
+ 
+        Invoke("ShowPlayerTurn", 2f);
+        } else
+        {
+            CurrentPlayer = RollOrder[PlayersGo];
+            ShowPlayerTurn();
+        }
+
+       
+    }
+
+    public void ShowPlayerTurn()
+    {
+        TurnNumberText.enabled = false;
+        vcam.Follow = CurrentPlayer.transform;
+        vcam.LookAt = CurrentPlayer.transform;
+        TurnText.fontSharedMaterial.SetColor(ShaderUtilities.ID_GlowColor, CurrentPlayer.GetComponent<Player>().PlayerColour);
+        // TurnText.ForceMeshUpdate();
         //TurnText.UpdateFontAsset();
+        TurnText.text = "PLAYER " + CurrentPlayer.GetComponent<Player>().PlayerNumber + " TURN";
+
         TurnText.enabled = true;
         Invoke("HideTurnText", 2f);
-       
     }
 
     public void HideTurnText()

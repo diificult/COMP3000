@@ -11,4 +11,6 @@ public class SpotPointers : MonoBehaviour
 
     public GameObject[] prevSpot = new GameObject[1];
 
+    public GameObject[] splitArrows;
+
 }

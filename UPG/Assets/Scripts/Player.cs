@@ -97,6 +97,10 @@ public class Player : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, end, speed * Time.deltaTime);
             yield return new WaitForEndOfFrame();
         }
+        if (PlayerLocation.GetComponent<SpotPointers>().SplitSpot)
+        {
+
+        }
         Move();
 
     }
