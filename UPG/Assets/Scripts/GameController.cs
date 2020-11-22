@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using TMPro;
 using Cinemachine;
+using System.Collections;
 
 public class GameController : MonoBehaviour
 {
@@ -32,6 +33,8 @@ public class GameController : MonoBehaviour
     private int TurnNumber = 1;
 
     private int toRoll;
+
+    public GameObject Fader;
 
     [SerializeField]
     private TextMeshProUGUI DiceRoll;
@@ -127,14 +130,8 @@ public class GameController : MonoBehaviour
             PlayersGo = 0;
             TurnNumber++;        
             CurrentPlayer = RollOrder[PlayersGo];
-        vcam.Follow = ViewPosition.transform;
-        vcam.LookAt = ViewPosition.transform;
-
-        TurnNumberText.text = "TURN " + TurnNumber;
-        TurnNumberText.enabled = true;   
-
- 
-        Invoke("ShowPlayerTurn", 2f);
+            Fader.GetComponent<Fading>().FadeIn();
+            StartCoroutine(ViewCamera());
         } else
         {
             CurrentPlayer = RollOrder[PlayersGo];
@@ -143,6 +140,23 @@ public class GameController : MonoBehaviour
 
        
     }
+
+
+    public IEnumerator ViewCamera()
+    {
+        yield return new WaitForSeconds(0.4f);
+        vcam.Follow = ViewPosition.transform;
+        vcam.LookAt = ViewPosition.transform;
+        yield return new WaitForSeconds(0.5f);
+        Fader.GetComponent<Fading>().FadeOut();
+        TurnNumberText.text = "TURN " + TurnNumber;
+        TurnNumberText.enabled = true;   
+
+ 
+           
+         Invoke("ShowPlayerTurn", 2f);
+    }
+
 
     public void ShowPlayerTurn()
     {
