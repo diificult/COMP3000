@@ -45,6 +45,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SplitSpot: 0
+  SpotType: 0
+  SpotMaterials:
+  - {fileID: 2100000, guid: 60cceb8ea278100478d1766177d0156e, type: 2}
+  - {fileID: 2100000, guid: 59124c21159c7544791baeb1bd842cb9, type: 2}
+  - {fileID: 2100000, guid: 9874e4e36fbc31f45bc751511206179c, type: 2}
+  - {fileID: 2100000, guid: ec95d11f77e447042a8cbe81c2a8738b, type: 2}
+  - {fileID: 2100000, guid: 5c22de5dab648874d8fd6cf3c174ee4f, type: 2}
   nextSpot:
   - {fileID: 0}
   prevSpot:
