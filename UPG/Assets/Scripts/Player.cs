@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
+using TMPro;
 
 [System.Serializable]
 public class OnValueChange : UnityEvent<int> { }
@@ -34,6 +35,9 @@ public class Player : MonoBehaviour
 
     public Color PlayerColour;
 
+    public TextMeshProUGUI CoinText;
+
+    private int Coins;
 
     public void allowedToRoll()
     {
@@ -105,5 +109,11 @@ public class Player : MonoBehaviour
 
     }
 
+    public void CoinChange(int change)
+    {
+        Coins += change;
+        if (Coins < 0) Coins = 0;
+        CoinText.text = "" + Coins;
+    }
 
 }

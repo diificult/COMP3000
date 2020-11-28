@@ -34,6 +34,8 @@ public class GameController : MonoBehaviour
 
     private int toRoll;
 
+    private int Coins;
+
     public GameObject Fader;
 
     [SerializeField]
@@ -93,7 +95,7 @@ public class GameController : MonoBehaviour
                     }
                 }
                 RollOrder[Position] = Players[i];
-                Color c = Players[Position].GetComponent<Player>().PlayerColour;
+                Color c = Players[i].GetComponent<Player>().PlayerColour;
                 c.a = 255;
                 PosIndicators[Position].color = c;
                 PosIndicators[Position].enabled = false;
