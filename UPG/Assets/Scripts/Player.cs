@@ -89,6 +89,7 @@ public class Player : MonoBehaviour
         else
         {
             OnMoveComplete.Invoke();
+            landonspot();
         }
     }
 
@@ -107,6 +108,29 @@ public class Player : MonoBehaviour
         }
         Move();
 
+    }
+
+    private void landonspot()
+    {
+        int landed = PlayerLocation.GetComponent<SpotPointers>().SpotType;
+    // 0 = Default
+    // 1 = Green
+    // 2 = Red
+    // 3 = Blue
+    // 4 = Gold
+        switch(landed)
+        {
+            case 0:
+                break;
+            case 1:
+                CoinChange(5);
+                break;
+            case 2:
+                CoinChange(-3);
+                break;
+            default:
+                break;
+        }
     }
 
     public void CoinChange(int change)

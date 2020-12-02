@@ -53,7 +53,9 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private UnityEvent PositionsDecided;
 
-    public GameObject ViewPosition; 
+    public GameObject ViewPosition;
+
+    public Canvas PlayerUI;
 
     void Start()
     {
@@ -115,12 +117,10 @@ public class GameController : MonoBehaviour
         vcam.Follow = CurrentPlayer.transform;
         vcam.LookAt = CurrentPlayer.transform;
         TurnText.fontSharedMaterial.SetColor(ShaderUtilities.ID_GlowColor, CurrentPlayer.GetComponent<Player>().PlayerColour);
-        // TurnText.ForceMeshUpdate();
-        //TurnText.UpdateFontAsset();
         TurnText.text = "PLAYER " + CurrentPlayer.GetComponent<Player>().PlayerNumber + " STARTS";
 
         TurnText.enabled = true;
-        Invoke("HideTurnText", 2f);
+        Invoke("ShowPlayerUI", 2f);
     }
 
 
@@ -152,12 +152,11 @@ public class GameController : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         Fader.GetComponent<Fading>().FadeOut();
         TurnNumberText.text = "TURN " + TurnNumber;
-        TurnNumberText.enabled = true;   
-
- 
-           
-         Invoke("ShowPlayerTurn", 2f);
+        TurnNumberText.enabled = true;
+        Invoke("ShowPlayerTurn", 1.2f);
     }
+
+
 
 
     public void ShowPlayerTurn()
@@ -166,19 +165,25 @@ public class GameController : MonoBehaviour
         vcam.Follow = CurrentPlayer.transform;
         vcam.LookAt = CurrentPlayer.transform;
         TurnText.fontSharedMaterial.SetColor(ShaderUtilities.ID_GlowColor, CurrentPlayer.GetComponent<Player>().PlayerColour);
-        // TurnText.ForceMeshUpdate();
-        //TurnText.UpdateFontAsset();
         TurnText.text = "PLAYER " + CurrentPlayer.GetComponent<Player>().PlayerNumber + " TURN";
-
         TurnText.enabled = true;
-        Invoke("HideTurnText", 2f);
+        Invoke("ShowPlayerUI", 2f);
+    }
+    private void ShowPlayerUI()
+    {
+        PlayerUI.enabled = true;
+        TurnText.enabled = false;
     }
 
-    public void HideTurnText()
+    public void ButtonClicked()
     {
+        Debug.Log("Button Clicked");
+    }
 
+    public void PlayersRoll()
+    {
+        PlayerUI.enabled = false;
         CurrentPlayer.GetComponent<Player>().allowedToRoll();
-        TurnText.enabled = false;
         DiceRoll.transform.SendMessage("NewTurn", SendMessageOptions.DontRequireReceiver);
     }
 
