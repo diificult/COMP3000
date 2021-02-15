@@ -28,47 +28,81 @@ public class Player : MonoBehaviour
 
     private bool PosRolled = false;
 
+    private bool GameStarted = false;
+
     public OnDiceRoll onDiceRoll;
 
-   // [SerializeField]
-    public int PlayerNumber;
+    [SerializeField]
+    private int PlayerNumber;
 
     public Color PlayerColour;
 
     public TextMeshProUGUI CoinText;
 
+    public TextMeshProUGUI DiceText;
+
     private int Coins;
+    GameController GameControllerScript;
+
+    void Start()
+    {
+        GameControllerScript = GameObject.Find("GameController").GetComponent<GameController>();
+        GameControllerScript.JoinPlayer(gameObject);
+        PlayerNumber = GameControllerScript.NoPlayers;
+        PlayerLocation = GameControllerScript.DefaultLocation;
+        GameObject.Find("P" + PlayerNumber + " Joined").GetComponent<TextMeshProUGUI>().enabled = true;
+        transform.position = PlayerLocation.transform.GetChild(PlayerNumber).position;
+        DiceText = GameObject.Find("Dice Roll").GetComponent<TextMeshProUGUI>();
+        
+    }
+
+    //Controller Input for start game
+    public void StartGame()
+    {
+        if (!GameStarted)
+        {
+            GameControllerScript = GameObject.Find("GameController").GetComponent<GameController>();
+            GameStarted = true;
+            GameControllerScript.GameLoad();
+        }
+    }
+
+
+    //Game Controller confirms start
+    public void GameStarting()
+    {
+        gameObject.transform.GetChild(0).gameObject.SetActive(true);
+        GameStarted = true;
+        Debug.Log("GameStarted");
+    }
+
+    public void MainGameStart() { 
+    }
+
 
     public void allowedToRoll()
     {
         CanRoll = true;
     }
 
-
-
-    public void Update()
+    public void RollDice()
     {
-
-        //Potentially inefficency here
-        if (!PosRolled)
+        if (GameStarted)
         {
-            if (Input.GetAxis("RollDicePlayer" + PlayerNumber) > 0)
+            if (!PosRolled)
             {
                 PosRolled = true;
                 int Roll = Random.Range(1, 7);
                 GetComponentInChildren<PositionDiceRoll>().DiceRolled(Roll);
-                onPosDiceRoll.Invoke(PlayerNumber, Roll);
-
-
+                GameControllerScript = GameObject.Find("GameController").GetComponent<GameController>();
+                Debug.Log( PlayerNumber +" , " + Roll);
+                GameControllerScript.PreGameRolled(PlayerNumber, Roll);
             }
-        }
-        else if (CanRoll)
-        {
-            if (Input.GetAxis("RollDicePlayer" + PlayerNumber) > 0)
+            else if (CanRoll)
             {
                 CanRoll = false;
                 MovesLeft = Random.Range(1, 7);
-                onDiceRoll.Invoke(MovesLeft);
+                DiceText.text = MovesLeft.ToString();
                 Move();
             }
         }
@@ -138,6 +172,16 @@ public class Player : MonoBehaviour
         Coins += change;
         if (Coins < 0) Coins = 0;
         CoinText.text = "" + Coins;
+    } 
+
+    public int GetPlayerNo()
+    {
+        return PlayerNumber;
+    }
+
+    public void DeviceLost()
+    {
+        Debug.LogWarning("Warning: Controller Disconnected");
     }
 
 }

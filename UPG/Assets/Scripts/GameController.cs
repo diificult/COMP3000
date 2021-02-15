@@ -4,12 +4,14 @@ using UnityEngine.Events;
 using TMPro;
 using Cinemachine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GameController : MonoBehaviour
 {
 
+    [Header("Player Data")]
     [SerializeField]
-    private GameObject[] Players;
+    private List<GameObject> Players = new List<GameObject>();
 
     [SerializeField]
     private GameObject[] RollOrder;
@@ -18,23 +20,29 @@ public class GameController : MonoBehaviour
     private Image[] PosIndicators;
 
     private int[] PreGameRolls;
-
-    public Camera c;
-    public GameObject Cine;
-    public CinemachineVirtualCamera vcam;
-
     [SerializeField]
     private GameObject CurrentPlayer;
     [SerializeField]
     private int PlayersGo;
-    [SerializeField]
-    private int NoPlayers = 2;
+  
+    public int NoPlayers = 0;
 
     private int TurnNumber = 1;
 
+
     private int toRoll;
 
-    private int Coins;
+
+    public GameObject DefaultLocation;   
+   
+
+    [Header("Camera Data")]
+    public Camera c;
+    public GameObject Cine;
+    public CinemachineVirtualCamera vcam;
+
+
+    [Header("UI Data")]
 
     public GameObject Fader;
 
@@ -50,16 +58,28 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private GameObject TurnUI;
 
-    [SerializeField]
-    private UnityEvent PositionsDecided;
-
     public GameObject ViewPosition;
 
     public Canvas PlayerUI;
+    public Canvas JoinUI;
 
-    void Start()
+
+    public void GameLoad()
     {
-        PreGameRoll();
+        JoinUI.gameObject.SetActive(false);
+        Transform AveragePosition = transform;
+        CinemachineTargetGroup group; 
+        foreach (GameObject p in Players)
+        {
+            p.SendMessage("GameStarting", SendMessageOptions.RequireReceiver);
+            AveragePosition.position += p.transform.position;
+            
+        }
+
+        AveragePosition.position = AveragePosition.position / 3;
+        vcam.LookAt = AveragePosition;
+        vcam.Follow = AveragePosition;
+            PreGameRoll();
     }
 
     private void PreGameRoll()
@@ -76,6 +96,7 @@ public class GameController : MonoBehaviour
     {
         toRoll--;
         PreGameRolls[PlayerNo -1] = Value;
+        //Order Decided prioritising lower players
         if (toRoll == 0)
         { 
             
@@ -103,8 +124,6 @@ public class GameController : MonoBehaviour
                 PosIndicators[Position].enabled = false;
                 PosIndicators[Position].enabled = true;
             }
-            
-            PositionsDecided.Invoke();
             StartGame();
         }
       
@@ -112,12 +131,16 @@ public class GameController : MonoBehaviour
 
     public void StartGame()
     {
-        TurnUI.SetActive(true);
+        foreach (GameObject p in Players)
+        {
+            p.transform.GetChild(0).SendMessage("done", SendMessageOptions.DontRequireReceiver);
+        }
+            TurnUI.SetActive(true);
         CurrentPlayer = RollOrder[0];
         vcam.Follow = CurrentPlayer.transform;
         vcam.LookAt = CurrentPlayer.transform;
         TurnText.fontSharedMaterial.SetColor(ShaderUtilities.ID_GlowColor, CurrentPlayer.GetComponent<Player>().PlayerColour);
-        TurnText.text = "PLAYER " + CurrentPlayer.GetComponent<Player>().PlayerNumber + " STARTS";
+        TurnText.text = "PLAYER " + CurrentPlayer.GetComponent<Player>().GetPlayerNo() + " STARTS";
 
         TurnText.enabled = true;
         Invoke("ShowPlayerUI", 2f);
@@ -165,7 +188,7 @@ public class GameController : MonoBehaviour
         vcam.Follow = CurrentPlayer.transform;
         vcam.LookAt = CurrentPlayer.transform;
         TurnText.fontSharedMaterial.SetColor(ShaderUtilities.ID_GlowColor, CurrentPlayer.GetComponent<Player>().PlayerColour);
-        TurnText.text = "PLAYER " + CurrentPlayer.GetComponent<Player>().PlayerNumber + " TURN";
+        TurnText.text = "PLAYER " + CurrentPlayer.GetComponent<Player>().GetPlayerNo() + " TURN";
         TurnText.enabled = true;
         Invoke("ShowPlayerUI", 2f);
     }
@@ -192,4 +215,11 @@ public class GameController : MonoBehaviour
         return PlayersGo;
     }
 
+
+    public void JoinPlayer(GameObject player)
+    {
+        NoPlayers++;
+        Players.Add(player);
+    }
+  
 }
