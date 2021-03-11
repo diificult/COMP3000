@@ -20,8 +20,8 @@ public class GameController : MonoBehaviour
     private Image[] PosIndicators;
 
     private int[] PreGameRolls;
-    [SerializeField]
-    private GameObject CurrentPlayer;
+   
+    public GameObject CurrentPlayer;
     [SerializeField]
     private int PlayersGo;
   
@@ -33,8 +33,9 @@ public class GameController : MonoBehaviour
     private int toRoll;
 
 
-    public GameObject DefaultLocation;   
-   
+    public GameObject DefaultLocation;
+
+    public GameObject PlayerJoinController;
 
     [Header("Camera Data")]
     public Camera c;
@@ -79,6 +80,7 @@ public class GameController : MonoBehaviour
         AveragePosition.position = AveragePosition.position / 3;
         vcam.LookAt = AveragePosition;
         vcam.Follow = AveragePosition;
+
             PreGameRoll();
     }
 
@@ -180,8 +182,6 @@ public class GameController : MonoBehaviour
     }
 
 
-
-
     public void ShowPlayerTurn()
     {
         TurnNumberText.enabled = false;
@@ -201,13 +201,6 @@ public class GameController : MonoBehaviour
     public void ButtonClicked()
     {
         Debug.Log("Button Clicked");
-    }
-
-    public void PlayersRoll()
-    {
-        PlayerUI.enabled = false;
-        CurrentPlayer.GetComponent<Player>().allowedToRoll();
-        DiceRoll.transform.SendMessage("NewTurn", SendMessageOptions.DontRequireReceiver);
     }
 
     public int GetPlayerValue()

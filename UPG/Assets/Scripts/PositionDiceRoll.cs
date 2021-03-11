@@ -27,7 +27,7 @@ public class PositionDiceRoll : MonoBehaviour
         Value = v;
         GetComponent<TextMeshPro>().text = Value.ToString();
     }
-
+    
     public void done ()
     {
         Destroy(gameObject);

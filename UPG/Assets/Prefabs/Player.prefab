@@ -455,6 +455,30 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 2864be33-398f-4d72-8315-3ad46fa99c22
     m_ActionName: Player/New action
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8370599251689749652}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: RollButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 02f72ceb-0393-4d9c-8ed0-f33ef0072358
+    m_ActionName: Player/Roll Dice
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: cf571fba-cebb-4d92-8479-af6808c64d61
+    m_ActionName: Player/Use Item
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 9263dfb6-a92c-40ac-8651-8d10f1a57f7a
+    m_ActionName: Player/View Map
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
