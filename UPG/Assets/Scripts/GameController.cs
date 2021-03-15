@@ -71,6 +71,10 @@ public class GameController : MonoBehaviour
 
     }
 
+    private void updatesCoins(int a, int b)
+    {
+
+    }
  
 
     public void GameLoad()
@@ -134,7 +138,7 @@ public class GameController : MonoBehaviour
                 PosIndicators[Position].enabled = false;
                 PosIndicators[Position].enabled = true;
             }
-            Invoke(StartGame(), 1f);
+            Invoke("StartGame", 1f);
         }
       
     } 

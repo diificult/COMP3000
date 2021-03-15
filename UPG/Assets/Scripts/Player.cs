@@ -95,7 +95,10 @@ public class Player : MonoBehaviour
                 CanRoll = false;
                 MovesLeft = Random.Range(1, 11);
                 DiceRollScript.GetComponent<DiceRoll>().DiceRolled(MovesLeft);
-                Move();
+                if (!CheckSpot())
+                {
+                    Move();
+                }
             }
         }
     }
@@ -104,6 +107,7 @@ public class Player : MonoBehaviour
     {
         if (PlayerLocation.GetComponent<SpotPointers>().SplitSpot)
         {
+            SplitSpot = true;
             DirectionChoices = new Dictionary<string, GameObject>();
             foreach (GameObject nextlocation in PlayerLocation.GetComponent<SpotPointers>().nextSpot)
             {
@@ -141,10 +145,6 @@ public class Player : MonoBehaviour
 
     private void Move()
     {
-
-        
-        if (CheckSpot() && MovesLeft > 0)
-        {
             DiceRollScript.ChangeValue(MovesLeft);
             MovesLeft--;
             PlayerLocation = PlayerLocation.GetComponent<SpotPointers>().nextSpot[0];
@@ -152,13 +152,8 @@ public class Player : MonoBehaviour
             
             nextTarget.y += 0.5f;
             StartCoroutine(MoveOverSpeed(nextTarget, 4.5f));
-        }
-        else
 
-        {
-            GameControllerScript.EndOfGo();
-            landonspot();
-        }
+           
     }
 
 
@@ -170,12 +165,16 @@ public class Player : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, end, speed * Time.deltaTime);
             yield return new WaitForEndOfFrame();
         }
-         else
+
+        if (MovesLeft <= 0)
+        {
+            GameControllerScript.EndOfGo();
+            landonspot();
+        }
+        else if (!CheckSpot())
         {
             Move();
         }
-       
-        
 
     }
 
@@ -193,25 +192,29 @@ public class Player : MonoBehaviour
 
     public void DirectionButton (string dir)
     {
-        GameObject.Find("ArrowWest").GetComponent<Image>().enabled = false; 
-        GameObject.Find("ArrowNorth").GetComponent<Image>().enabled = false;
-        GameObject.Find("ArrowSouth").GetComponent<Image>().enabled = false;
-        GameObject.Find("ArrowEast").GetComponent<Image>().enabled = false;
-        
-        if (MovesLeft > 0)
+        //Prevent the player pressing the button if they arent on a split spot
+        if (SplitSpot)
         {
-            DiceRollScript.ChangeValue(MovesLeft);
-            MovesLeft--;
-            GameObject NextSpot = DirectionChoices[dir.ToString()];
-            PlayerLocation = NextSpot;
-            Vector3 nextTarget = NextSpot.transform.position;
-            nextTarget.y += 0.5f;
-            StartCoroutine(MoveOverSpeed(nextTarget, 4.5f));
-        }
-        else
-        {
-            GameControllerScript.EndOfGo();
-            landonspot();
+            GameObject.Find("ArrowWest").GetComponent<Image>().enabled = false;
+            GameObject.Find("ArrowNorth").GetComponent<Image>().enabled = false;
+            GameObject.Find("ArrowSouth").GetComponent<Image>().enabled = false;
+            GameObject.Find("ArrowEast").GetComponent<Image>().enabled = false;
+            SplitSpot = false;
+            if (MovesLeft > 0)
+            {
+                DiceRollScript.ChangeValue(MovesLeft);
+                MovesLeft--;
+                GameObject NextSpot = DirectionChoices[dir.ToString()];
+                PlayerLocation = NextSpot;
+                Vector3 nextTarget = NextSpot.transform.position;
+                nextTarget.y += 0.5f;
+                StartCoroutine(MoveOverSpeed(nextTarget, 4.5f));
+            }
+            else
+            {
+                GameControllerScript.EndOfGo();
+                landonspot();
+            }
         }
     }
 
