@@ -99,7 +99,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 0
+  m_text: 6
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -294,58 +294,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerLocation: {fileID: 2902314919251114591, guid: d0ff2bcd7e4e3fe45a84228b91476259, type: 3}
-  OnMoveComplete:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: DiceRoll, Assembly-CSharp
-        m_MethodName: HideDice
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameController, Assembly-CSharp
-        m_MethodName: EndOfGo
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  onValueChange:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: DiceRoll, Assembly-CSharp
-        m_MethodName: ChangeValue
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  onPosDiceRoll:
-    m_PersistentCalls:
-      m_Calls: []
-  onDiceRoll:
-    m_PersistentCalls:
-      m_Calls: []
   PlayerNumber: 0
   PlayerColour: {r: 0, g: 0, b: 0, a: 0}
-  CoinText: {fileID: 0}
-  DiceText: {fileID: 0}
 --- !u!114 &8518997573679826723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -479,6 +429,70 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 9263dfb6-a92c-40ac-8651-8d10f1a57f7a
     m_ActionName: Player/View Map
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8370599251689749652}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: DirectionButton
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: n
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 5b1ca5a3-957c-456b-8ef2-fa9f8a473e3d
+    m_ActionName: Player/DPadNorth[/XInputControllerWindows/dpad/up,/XInputControllerWindows/dpad/up]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8370599251689749652}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: DirectionButton
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: e
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 0377b7a7-517f-4d27-840f-3def0a4a47bf
+    m_ActionName: Player/DPadEast[/XInputControllerWindows/dpad/right,/XInputControllerWindows/dpad/right]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8370599251689749652}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: DirectionButton
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: s
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 7da57309-3b02-4993-8a21-7a13288da50c
+    m_ActionName: Player/DPadSouth[/XInputControllerWindows/dpad/down,/XInputControllerWindows/dpad/down]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8370599251689749652}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: DirectionButton
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: w
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: ce7996f6-60bf-4966-a349-1142546c2965
+    m_ActionName: Player/DPadWest[/XInputControllerWindows/dpad/left,/XInputControllerWindows/dpad/left]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player

@@ -44,6 +44,38 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "DPadNorth",
+                    "type": "Button",
+                    "id": "5b1ca5a3-957c-456b-8ef2-fa9f8a473e3d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "DPadEast",
+                    "type": "Button",
+                    "id": "0377b7a7-517f-4d27-840f-3def0a4a47bf",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "DPadSouth",
+                    "type": "Button",
+                    "id": "7da57309-3b02-4993-8a21-7a13288da50c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "DPadWest",
+                    "type": "Button",
+                    "id": "ce7996f6-60bf-4966-a349-1142546c2965",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -99,6 +131,50 @@
                     "processors": "",
                     "groups": "",
                     "action": "View Map",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5c00002f-c4f0-4b72-b9f8-9b3a32ce5835",
+                    "path": "<Gamepad>/dpad/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DPadNorth",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "827f96e9-5251-4ce6-995e-4dade44e7bc5",
+                    "path": "<Gamepad>/dpad/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DPadEast",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f58ae237-942c-48a0-873e-829e39ad6459",
+                    "path": "<Gamepad>/dpad/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DPadWest",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "06fc4661-6877-4c74-892b-96dc8864d8e2",
+                    "path": "<Gamepad>/dpad/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DPadSouth",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

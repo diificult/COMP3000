@@ -3,16 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using TMPro;
+using UnityEngine.UI;
 
 
 public class Player : MonoBehaviour
 {
 
     public GameObject PlayerLocation;
-
-    public UnityEvent OnMoveComplete;
-
-
+    
     private int MovesLeft;
 
     private bool CanRoll = false;
@@ -21,15 +19,16 @@ public class Player : MonoBehaviour
 
     private bool GameStarted = false;
 
+    private bool SplitSpot = false;
+
 
     [SerializeField]
     private int PlayerNumber;
 
     public Color PlayerColour;
 
-    public TextMeshProUGUI CoinText;
-
-    public TextMeshProUGUI DiceText;
+    public delegate void SendCoins(int coins, int player);
+    public static event SendCoins OnSendCoins;
 
     private Dictionary<string, GameObject> DirectionChoices = new Dictionary<string, GameObject>();
 
@@ -85,28 +84,68 @@ public class Player : MonoBehaviour
             if (!PosRolled)
             {
                 PosRolled = true;
-                int Roll = Random.Range(1, 7);
+                int Roll = Random.Range(1, 11);
                 GetComponentInChildren<PositionDiceRoll>().DiceRolled(Roll);
                 GameControllerScript = GameObject.Find("GameController").GetComponent<GameController>();
-                Debug.Log( PlayerNumber +" , " + Roll);
+                Debug.Log(PlayerNumber +" , " + Roll);
                 GameControllerScript.PreGameRolled(PlayerNumber, Roll);
             }
             else if (CanRoll)
             {
                 CanRoll = false;
-                MovesLeft = Random.Range(1, 7);
+                MovesLeft = Random.Range(1, 11);
                 DiceRollScript.GetComponent<DiceRoll>().DiceRolled(MovesLeft);
                 Move();
             }
         }
     }
 
+    private bool CheckSpot()
+    {
+        if (PlayerLocation.GetComponent<SpotPointers>().SplitSpot)
+        {
+            DirectionChoices = new Dictionary<string, GameObject>();
+            foreach (GameObject nextlocation in PlayerLocation.GetComponent<SpotPointers>().nextSpot)
+            {
+                if (nextlocation.transform.position.z > PlayerLocation.transform.position.z)
+                {
+                    GameObject.Find("ArrowNorth").GetComponent<Image>().enabled = true;
+                    DirectionChoices.Add("n", nextlocation);
+                    //North Button
+                }
+                else if (nextlocation.transform.position.z < PlayerLocation.transform.position.z)
+                {
+                    //South Button
+                    GameObject.Find("ArrowSouth").GetComponent<Image>().enabled = true;
+                    DirectionChoices.Add("s", nextlocation);
+                }
+                else if (nextlocation.transform.position.x > PlayerLocation.transform.position.x)
+                {
+                    //East Button
+                    GameObject.Find("ArrowEast").GetComponent<Image>().enabled = true;
+                    DirectionChoices.Add("e", nextlocation);
+                }
+                else if (nextlocation.transform.position.x < PlayerLocation.transform.position.x)
+                {
+                    //West Button
+                    GameObject.Find("ArrowWest").GetComponent<Image>().enabled = true;
+                    DirectionChoices.Add("w", nextlocation);
+                }
+                
+
+            }
+            return true;
+        }
+        return false;
+    }
+
     private void Move()
     {
 
         
-        if (MovesLeft > 0)
+        if (CheckSpot() && MovesLeft > 0)
         {
+            DiceRollScript.ChangeValue(MovesLeft);
             MovesLeft--;
             PlayerLocation = PlayerLocation.GetComponent<SpotPointers>().nextSpot[0];
             Vector3 nextTarget = PlayerLocation.transform.position;
@@ -115,8 +154,9 @@ public class Player : MonoBehaviour
             StartCoroutine(MoveOverSpeed(nextTarget, 4.5f));
         }
         else
+
         {
-            OnMoveComplete.Invoke();
+            GameControllerScript.EndOfGo();
             landonspot();
         }
     }
@@ -130,38 +170,7 @@ public class Player : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, end, speed * Time.deltaTime);
             yield return new WaitForEndOfFrame();
         }
-        if (PlayerLocation.GetComponent<SpotPointers>().SplitSpot)
-        {
-            DirectionChoices = new Dictionary<string, GameObject>();
-            foreach (GameObject nextlocation in PlayerLocation.GetComponent<SpotPointers>().nextSpot)
-            {
-                if (nextlocation.transform.position.z > PlayerLocation.transform.position.z)
-                {
-                    GameObject.Find("ArrowNorth").SetActive(true);
-                    DirectionChoices.Add("n", nextlocation);
-                    //North Button
-                }
-                else if (nextlocation.transform.position.z < PlayerLocation.transform.position.z)
-                {
-                    //South Button
-                    GameObject.Find("ArrowSouth").SetActive(true);
-                    DirectionChoices.Add("s", nextlocation);
-                }
-                else if (nextlocation.transform.position.x > PlayerLocation.transform.position.x)
-                {
-                    //East Button
-                    GameObject.Find("ArrowEast").SetActive(true);
-                    DirectionChoices.Add("e", nextlocation);
-                } else if (nextlocation.transform.position.x < PlayerLocation.transform.position.x)
-                {
-                    //West Button
-                    GameObject.Find("ArrowWest").SetActive(true);
-                    DirectionChoices.Add("w", nextlocation);
-                }
-
-            }
-
-        } else
+         else
         {
             Move();
         }
@@ -172,22 +181,26 @@ public class Player : MonoBehaviour
 
     public void RollButton()
     {
-        if (GameControllerScript.CurrentPlayer == gameObject)
+        if (GameStarted)
         {
-            allowedToRoll();
-            DiceRollScript.NewTurn();
+            if (GameControllerScript.CurrentPlayer == gameObject)
+            {
+                allowedToRoll();
+                DiceRollScript.NewTurn();
+            }
         }
     }
 
-    public void DirectionButton (char dir)
+    public void DirectionButton (string dir)
     {
-        GameObject.Find("ArrowWest").SetActive(false);
-        GameObject.Find("ArrowNorth").SetActive(false);
-        GameObject.Find("ArrowSouth").SetActive(false);
-        GameObject.Find("ArrowEast").SetActive(false);
-        DiceRollScript.ChangeValue(MovesLeft);
+        GameObject.Find("ArrowWest").GetComponent<Image>().enabled = false; 
+        GameObject.Find("ArrowNorth").GetComponent<Image>().enabled = false;
+        GameObject.Find("ArrowSouth").GetComponent<Image>().enabled = false;
+        GameObject.Find("ArrowEast").GetComponent<Image>().enabled = false;
+        
         if (MovesLeft > 0)
         {
+            DiceRollScript.ChangeValue(MovesLeft);
             MovesLeft--;
             GameObject NextSpot = DirectionChoices[dir.ToString()];
             PlayerLocation = NextSpot;
@@ -197,7 +210,7 @@ public class Player : MonoBehaviour
         }
         else
         {
-            OnMoveComplete.Invoke();
+            GameControllerScript.EndOfGo();
             landonspot();
         }
     }
@@ -229,7 +242,7 @@ public class Player : MonoBehaviour
     {
         Coins += change;
         if (Coins < 0) Coins = 0;
-        CoinText.text = "" + Coins;
+      //  CoinText.text = "" + Coins;
     } 
 
     public int GetPlayerNo()

@@ -65,6 +65,14 @@ public class GameController : MonoBehaviour
     public Canvas JoinUI;
 
 
+    public void OnEnable()
+    {
+        Player.OnSendCoins += updatesCoins;
+
+    }
+
+ 
+
     public void GameLoad()
     {
         JoinUI.gameObject.SetActive(false);
@@ -126,7 +134,7 @@ public class GameController : MonoBehaviour
                 PosIndicators[Position].enabled = false;
                 PosIndicators[Position].enabled = true;
             }
-            StartGame();
+            Invoke(StartGame(), 1f);
         }
       
     } 
