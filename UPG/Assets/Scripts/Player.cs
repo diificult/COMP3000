@@ -139,6 +139,9 @@ public class Player : MonoBehaviour
 
             }
             return true;
+        } else if (PlayerLocation.GetComponent<SpotPointers>().GetSpotType() == 4)
+        {
+            return true;
         }
         return false;
     }
@@ -220,7 +223,7 @@ public class Player : MonoBehaviour
 
     private void landonspot()
     {
-        int landed = PlayerLocation.GetComponent<SpotPointers>().SpotType;
+        int landed = PlayerLocation.GetComponent<SpotPointers>().GetSpotType();
     // 0 = Default
     // 1 = Green
     // 2 = Red

@@ -22,6 +22,7 @@ public class GameController : MonoBehaviour
     private int[] PreGameRolls;
    
     public GameObject CurrentPlayer;
+
     [SerializeField]
     private int PlayersGo;
   
@@ -29,9 +30,7 @@ public class GameController : MonoBehaviour
 
     private int TurnNumber = 1;
 
-
     private int toRoll;
-
 
     public GameObject DefaultLocation;
 
@@ -64,6 +63,13 @@ public class GameController : MonoBehaviour
     public Canvas PlayerUI;
     public Canvas JoinUI;
 
+    [Header("World & Game Data")]
+
+    [Tooltip("Potential spots. FINAL VALUE WILL NO BE CHOSEN FOR FIRST SPOT! USE FOR SPOT NEAR THE START")]
+    public GameObject[] CollectableSpot;
+
+    private bool GameStarted = false;
+
 
     public void OnEnable()
     {
@@ -92,7 +98,7 @@ public class GameController : MonoBehaviour
         AveragePosition.position = AveragePosition.position / 3;
         vcam.LookAt = AveragePosition;
         vcam.Follow = AveragePosition;
-
+        DecideCollectableSpot();
             PreGameRoll();
     }
 
@@ -145,6 +151,7 @@ public class GameController : MonoBehaviour
 
     public void StartGame()
     {
+        GameStarted = true;
         foreach (GameObject p in Players)
         {
             p.transform.GetChild(0).SendMessage("done", SendMessageOptions.DontRequireReceiver);
@@ -178,6 +185,16 @@ public class GameController : MonoBehaviour
         }
 
        
+    }
+    
+    public void DecideCollectableSpot()
+    {
+        int ArraySize = CollectableSpot.Length;
+        int spot;
+        if (GameStarted) spot = Random.Range(0, ArraySize);
+        else spot = Random.Range(0, ArraySize - 1);
+        Debug.Log("" + spot);
+        CollectableSpot[spot].GetComponent<SpotPointers>().SetSpotType(4);
     }
 
 
@@ -227,4 +244,6 @@ public class GameController : MonoBehaviour
         Players.Add(player);
     }
   
+
+
 }

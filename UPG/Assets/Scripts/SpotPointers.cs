@@ -7,7 +7,8 @@ public class SpotPointers : MonoBehaviour
 
     public bool SplitSpot = false;
 
-    public int SpotType = 0;
+    [SerializeField]
+    private int SpotType = 0;
     // 0 = Default
     // 1 = Green
     // 2 = Red
@@ -28,4 +29,15 @@ public class SpotPointers : MonoBehaviour
         SpotType = Random.Range(0, 3);
         gameObject.transform.GetChild(0).gameObject.GetComponent<MeshRenderer>().material = SpotMaterials[SpotType];
     }
+
+    public void SetSpotType(int value) {
+        SpotType = value;
+        gameObject.transform.GetChild(0).gameObject.GetComponent<MeshRenderer>().material = SpotMaterials[SpotType];
+        
+    }
+
+    public int GetSpotType() {
+        return SpotType;
+    }
+
 }
