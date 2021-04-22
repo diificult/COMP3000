@@ -243,6 +243,11 @@ public class GameController : MonoBehaviour
         NoPlayers++;
         Players.Add(player);
     }
+
+    public List<GameObject> GetPlayers()
+    {
+        return Players;
+    }
   
 
 

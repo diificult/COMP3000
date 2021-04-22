@@ -685,6 +685,44 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Stacker",
+            "id": "d38e9c99-d6e3-46e7-8ae1-4f730a0ef0b6",
+            "actions": [
+                {
+                    "name": "Place Block",
+                    "type": "Button",
+                    "id": "38ff6eee-2445-4d12-be8b-ea9e9696d5f3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "b21bda8e-f317-42ee-9a85-3ab33d241eb7",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Place Block",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "397a0625-2e79-481e-9f81-41cdb1143499",
+                    "path": "<keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Place Block",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [

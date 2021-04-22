@@ -38,13 +38,13 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        GameControllerScript = GameObject.Find("GameController").GetComponent<GameController>();
-        GameControllerScript.JoinPlayer(gameObject);
-        PlayerNumber = GameControllerScript.NoPlayers;
-        PlayerLocation = GameControllerScript.DefaultLocation;
-        GameObject.Find("P" + PlayerNumber + " Joined").GetComponent<TextMeshProUGUI>().enabled = true;
-        transform.position = PlayerLocation.transform.GetChild(PlayerNumber).position;
-        DiceRollScript = GameObject.Find("Dice Roll").GetComponent<DiceRoll>();
+       // GameControllerScript = GameObject.Find("GameController").GetComponent<GameController>();
+     //   GameControllerScript.JoinPlayer(gameObject);
+     //   PlayerNumber = GameControllerScript.NoPlayers;
+     //   PlayerLocation = GameControllerScript.DefaultLocation;
+    //    GameObject.Find("P" + PlayerNumber + " Joined").GetComponent<TextMeshProUGUI>().enabled = true;
+    //    transform.position = PlayerLocation.transform.GetChild(PlayerNumber).position;
+    //    DiceRollScript = GameObject.Find("Dice Roll").GetComponent<DiceRoll>();
         
     }
 
@@ -141,6 +141,7 @@ public class Player : MonoBehaviour
             return true;
         } else if (PlayerLocation.GetComponent<SpotPointers>().GetSpotType() == 4)
         {
+
             return true;
         }
         return false;
