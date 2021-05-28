@@ -5,7 +5,7 @@ using UnityEngine.InputSystem.Utilities;
 public class StackerGame : MonoBehaviour
 {
 
-    private int[,] board = new int[7, 10];
+    private int[,] board = new int[6, 10];
     public GameObject GameCube;
 
     public int SpawnHeight = 0;
@@ -32,7 +32,7 @@ public class StackerGame : MonoBehaviour
     {
         
         counter++;
-        if (counter >= (6 - (SpawnHeight / 2)))
+        if (counter * 2 >= (10 - (SpawnHeight)))
         {
             MoveBlock();
             counter = 0;
@@ -164,7 +164,7 @@ public class StackerGame : MonoBehaviour
     {
         if (moving == true)
         {
-            if (x == 6) MoveDir = -1;
+            if (x == 5) MoveDir = -1;
             if (x == 0) MoveDir = 1;
             x += MoveDir;
             CurrentCube.transform.Translate(Vector3.right * MoveDir);

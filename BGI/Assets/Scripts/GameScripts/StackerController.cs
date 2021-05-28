@@ -39,7 +39,13 @@ public class StackerController : MonoBehaviour
             
             PlayerWinOrder[finished] = players[0];
         }
+        GameObject[] Allplayers = GameObject.FindGameObjectsWithTag("Player");
+        foreach (GameObject p in Allplayers)
+        {
+            p.GetComponent<StackerGame>().enabled = false;
+        }
         GetComponent<GameController>().EndMinigame(PlayerWinOrder);
+
     }
 
     public void isFinished()
