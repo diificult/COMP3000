@@ -295,6 +295,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerLocation: {fileID: 2902314919251114591, guid: d0ff2bcd7e4e3fe45a84228b91476259, type: 3}
+  PlayerUI: {fileID: 0}
   PlayerNumber: 0
   PlayerColour: {fileID: 0}
 --- !u!114 &8518997573679826723
@@ -427,19 +428,7 @@ MonoBehaviour:
     m_ActionId: cf571fba-cebb-4d92-8479-af6808c64d61
     m_ActionName: Player/Use Item
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8370599251689749652}
-        m_TargetAssemblyTypeName: Player, Assembly-CSharp
-        m_MethodName: MoveLevelTest
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: 9263dfb6-a92c-40ac-8651-8d10f1a57f7a
     m_ActionName: Player/View Map
   - m_PersistentCalls:
@@ -546,3 +535,4 @@ MonoBehaviour:
   xAdjust: 2
   zAdjust: 0
   pi: {fileID: 8518997573679826723}
+  allBlocks: []

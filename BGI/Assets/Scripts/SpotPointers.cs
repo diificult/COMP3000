@@ -26,7 +26,8 @@ public class SpotPointers : MonoBehaviour
 
      void Start()
     {
-        SpotType = Random.Range(0, 3);
+        SpotType = Random.Range(0, 5);
+        if (SpotType == 3 || SpotType == 4) SpotType = 1;
         gameObject.transform.GetChild(0).gameObject.GetComponent<MeshRenderer>().material = SpotMaterials[SpotType];
     }
 

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
 
@@ -26,11 +27,11 @@ public class StackerGame : MonoBehaviour
 
     public PlayerInput pi;
 
-//    private var pad;
+    public List<GameObject> allBlocks = new List<GameObject>();
 
     private void FixedUpdate()
     {
-        
+        //Move the block a set number of times per second based on the players height
         counter++;
         if (counter * 2 >= (10 - (SpawnHeight)))
         {
@@ -44,11 +45,20 @@ public class StackerGame : MonoBehaviour
         //Defines the size of the cube. Object MUST be cube space.
         //Helps decide where the cube should spawn
         CubeSize = GameCube.transform.localScale.y;
+        SpawnHeight = 0;
+        board = new int[6, 10];
         SpawnBlock();
         moving = true;
         pi.SwitchCurrentActionMap("Stacker");
         playerNo = GetComponent<Player>().GetPlayerNo();
-      //  pad = InputSystem.GetDevice<Gamepad>(new InternedString("Player" + playerNo));
+    }
+
+    private void OnDisable()
+    {
+        foreach(GameObject cube in allBlocks)
+        {
+            Destroy(cube);
+        }
     }
 
     public void BlockPlace()
@@ -56,33 +66,36 @@ public class StackerGame : MonoBehaviour
 
         if (canPlace)
         {
-            // var PlayerPad =  InputSystem.GetDevice<Gamepad>(GetComponent<PlayerInput>().devices[0]);
-            // Debug.Log(PlayerPad);
-            // PlayerPad.SetMotorSpeeds(0.15f, 0.80f);
+            //Adding controller rumble
             var pad = InputSystem.GetDevice<Gamepad>(new InternedString("Player"+ playerNo));
             pad.SetMotorSpeeds(0.15f, 0.80f);
 
-
+            //Letting the player not move or place any of the blocks
             moving = false;
             canPlace = false;
+            //Creates particles
             CurrentCube.SendMessage("PlayParticles", SendMessageOptions.DontRequireReceiver);
+            //After some time allow the player to start placing
             Invoke("PlaceAgain", 0.75f);
+            //If the height of the block is currently at the bottom, just place the block where it is
             if (SpawnHeight == 0)
             {
                 board[x, y] = 1;
                 SpawnHeight++;
             }
+            //Otherwise if the space below the block is clear place the block there and increase the height of the block
             else if (board[x, y - 1] == 1)
             {
 
                 board[x, y] = 1;
                 SpawnHeight++;
             }
+            //Otherwise check where the block should place
             else
             {
                 CheckBlock(x, SpawnHeight);
             }
-
+            //Check to see if the player has won, if so let the game controller know that the player is finished
             if (SpawnHeight == 10)
             {
                 // finished
@@ -90,9 +103,12 @@ public class StackerGame : MonoBehaviour
                 GameObject.Find("GameController").SendMessage("PlayerFinished", playerNo, SendMessageOptions.DontRequireReceiver);
                 this.enabled = false;
             }
+
+            //Otherwise spawn another block.
             else
             {
                 pad.SetMotorSpeeds(0.0f, 0.0f);
+                
                 Invoke("SpawnBlock", (0.3f - (SpawnHeight / 75.0f)));
             }
         }
@@ -103,7 +119,9 @@ public class StackerGame : MonoBehaviour
     {
         canPlace = true;
     }
+
     public bool CheckBlock(int x, int y)
+
     {
         //check to see if block below exists 
         if (board[x, y - 1] == 1)
@@ -138,16 +156,9 @@ public class StackerGame : MonoBehaviour
         return true;
     }
 
-
-    // Start is called before the first frame update
-    public void GameStart()
-    {
-
-    }
-
     public void SpawnBlock()
     {
-        
+        //Chooses a random x position to place the block at.
         int r = Random.Range(0, 6);
         Vector3 SpawnPosition;
         SpawnPosition.y = SpawnHeight * CubeSize;
@@ -158,12 +169,15 @@ public class StackerGame : MonoBehaviour
         x = r;
         y = SpawnHeight;
         moving = true;
+        allBlocks.Add(CurrentCube);
     }
 
+    //Move the block left and right
     private void MoveBlock()
     {
         if (moving == true)
         {
+            //Check to see if the block is at the edge
             if (x == 5) MoveDir = -1;
             if (x == 0) MoveDir = 1;
             x += MoveDir;

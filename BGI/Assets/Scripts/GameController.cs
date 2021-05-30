@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class GameController : MonoBehaviour
 {
@@ -17,7 +18,7 @@ public class GameController : MonoBehaviour
 
     [SerializeField]
     private Image[] PosIndicators;
-
+    [SerializeField]
     private int[] PreGameRolls;
 
     public GameObject CurrentPlayer;
@@ -26,11 +27,11 @@ public class GameController : MonoBehaviour
 
     [SerializeField]
     private int PlayersGo;
-
+    [SerializeField]
     public int NoPlayers = 0;
 
     private int TurnNumber = 1;
-
+    [SerializeField]
     private int toRoll;
 
     public GameObject DefaultLocation;
@@ -41,6 +42,8 @@ public class GameController : MonoBehaviour
 
     public GameObject[] PlayerMinigameCaps = new GameObject[4];
     public GameObject[] MiniPosText = new GameObject[4];
+
+   
 
     [Header("Camera Data")]
     public Camera c;
@@ -79,6 +82,8 @@ public class GameController : MonoBehaviour
     [Tooltip("Potential spots. FINAL VALUE WILL NO BE CHOSEN FOR FIRST SPOT! USE FOR SPOT NEAR THE START")]
     public GameObject[] CollectableSpot;
 
+    private GameObject LastSpot;
+    [SerializeField]
     private bool GameStarted = false;
 
     private bool MinigameWaiting = false;
@@ -87,20 +92,12 @@ public class GameController : MonoBehaviour
 
     public GameObject MinigamePlayerPointsParent;
 
+    public int TurnsTilMinigame = 3;
+
     [Header("Animation Data")]
 
     public Animator FinishedAni;
 
-    public void OnEnable()
-    {
-        Player.OnSendCoins += updatesCoins;
-
-    }
-
-    private void updatesCoins(int a, int b)
-    {
-
-    }
 
     public Material getPlayerColour(int playerNo)
     {
@@ -124,8 +121,9 @@ public class GameController : MonoBehaviour
         AveragePosition.position = AveragePosition.position / i;
         vcam.LookAt = AveragePosition;
         vcam.Follow = AveragePosition;
-        DecideCollectableSpot();
         PreGameRoll();
+        DecideCollectableSpot();
+        
     }
 
     private void PreGameRoll()
@@ -166,19 +164,16 @@ public class GameController : MonoBehaviour
                     }
                 }
                 RollOrder[Position] = Players[i];
-              //  Color c = Players[i].GetComponent<Player>().PlayerColour;
-             //   c.a = 255;
-              //  PosIndicators[Position].color = c;
-              //  PosIndicators[Position].enabled = false;
-            //    PosIndicators[Position].enabled = true;
             }
-            Invoke("StartGame", 1f);
+            Invoke("StartGame", 2f);
         }
 
     }
 
+    //Called once the players all have rolled.
     public void StartGame()
     {
+        TurnsTilMinigame = 3;
         GameStarted = true;
         foreach (GameObject p in Players)
         {
@@ -188,7 +183,6 @@ public class GameController : MonoBehaviour
         CurrentPlayer = RollOrder[0];
         vcam.Follow = CurrentPlayer.transform;
         vcam.LookAt = CurrentPlayer.transform;
-       // TurnText.fontSharedMaterial.SetColor(ShaderUtilities.ID_GlowColor, CurrentPlayer.GetComponent<Player>().PlayerColour);
         TurnText.text = "PLAYER " + CurrentPlayer.GetComponent<Player>().GetPlayerNo() + " STARTS";
 
         TurnText.enabled = true;
@@ -201,11 +195,20 @@ public class GameController : MonoBehaviour
         PlayersGo++;
         if (PlayersGo == NoPlayers)
         {
-            PlayersGo = 0;
-            TurnNumber++;
-            CurrentPlayer = RollOrder[PlayersGo];
-            Fader.GetComponent<Fading>().FadeIn(15.0f);
-            StartCoroutine(ViewCamera());
+            TurnsTilMinigame--;
+            if (TurnsTilMinigame == 0)
+            {
+                LoadMinigameGame();
+                TurnsTilMinigame = 3;
+            }
+            else
+            {
+                PlayersGo = 0;
+                TurnNumber++;
+                CurrentPlayer = RollOrder[PlayersGo];
+                Fader.GetComponent<Fading>().FadeIn(15.0f);
+                StartCoroutine(ViewCamera());
+            }
         }
         else
         {
@@ -220,10 +223,19 @@ public class GameController : MonoBehaviour
     {
         int ArraySize = CollectableSpot.Length;
         int spot;
-        if (GameStarted) spot = Random.Range(0, ArraySize);
-        else spot = Random.Range(0, ArraySize - 1);
-        Debug.Log("" + spot);
-        CollectableSpot[spot].GetComponent<SpotPointers>().SetSpotType(4);
+
+        if (!GameStarted) spot = Random.Range(0, ArraySize-1);
+        else
+        {
+            LastSpot.GetComponent<SpotPointers>().SetSpotType(1);
+            do
+            {
+                spot = Random.Range(0, ArraySize);
+            } while (CollectableSpot[spot] == LastSpot);
+        }
+        LastSpot = CollectableSpot[spot];
+        LastSpot.GetComponent<SpotPointers>().SetSpotType(4);
+        
     }
 
 
@@ -234,7 +246,7 @@ public class GameController : MonoBehaviour
         vcam.LookAt = ViewPosition.transform;
         yield return new WaitForSeconds(0.8f);
         Fader.GetComponent<Fading>().FadeOut(15.0f);
-        TurnNumberText.text = "TURN " + TurnNumber;
+        TurnNumberText.text = "TURN " + TurnNumber + " || " + TurnsTilMinigame + " turns until minigame";
         TurnNumberText.enabled = true;
         Invoke("ShowPlayerTurn", 1.2f);
     }
@@ -245,7 +257,6 @@ public class GameController : MonoBehaviour
         TurnNumberText.enabled = false;
         vcam.Follow = CurrentPlayer.transform;
         vcam.LookAt = CurrentPlayer.transform;
-      // TurnText.fontSharedMaterial.SetColor(ShaderUtilities.ID_GlowColor, CurrentPlayer.GetComponent<Player>().PlayerColour);
         TurnText.text = "PLAYER " + CurrentPlayer.GetComponent<Player>().GetPlayerNo() + " TURN";
         TurnText.enabled = true;
         Invoke("ShowPlayerUI", 2f);
@@ -256,10 +267,6 @@ public class GameController : MonoBehaviour
         TurnText.enabled = false;
     }
 
-    public void ButtonClicked()
-    {
-        Debug.Log("Button Clicked");
-    }
 
     public int GetPlayerValue()
     {
@@ -282,13 +289,12 @@ public class GameController : MonoBehaviour
     public void LoadMinigameGame()
     {
         Fader.GetComponent<Fading>().FadeIn(15.0f);
-        Invoke("LoadMinigame2", 2.0f);
+        Invoke("LoadMinigame2", 1.5f);
     }
 
     private void LoadMinigame2()
     {
         gameObject.GetComponent<SceneController>().StackerGame();
-        c.transform.position = new Vector3(1005, 7, -5);
         c.enabled = false;
         Minigamec.enabled = true;
         MinigameUI.enabled = true;
@@ -299,14 +305,16 @@ public class GameController : MonoBehaviour
         {
             p.transform.position = MinigamePlayerPointsParent.gameObject.transform.GetChild(p.GetComponent<Player>().GetPlayerNo() - 1).transform.position;
             p.transform.rotation = MinigamePlayerPointsParent.gameObject.transform.GetChild(p.GetComponent<Player>().GetPlayerNo() - 1).transform.rotation;
+             GameObject.Find("Player " + p.GetComponent<Player>().GetPlayerNo() + " Text").GetComponent<PlayerUI>().Hide();
         }
         Invoke("FadeOut", 1.0f);
     }
 
+    // Ready script for the minigame, each player can ready up and only starts once all players are ready
     public void ReadyPlayer(int playerNumber)
     {
-        Debug.Log(playerNumber + "");
-        if (MinigameWaiting)
+        //Checks to make sure there is a minigame waiting and if the player number isnt 0, this is to prevent a bug with the input system.
+        if (MinigameWaiting && playerNumber != 0)
         {
             
             switch (PlayersReady[playerNumber - 1])
@@ -375,10 +383,29 @@ public class GameController : MonoBehaviour
         int i = 0;
         foreach(int player in positions)
         {
-            Debug.LogError(player);
+            Debug.Log(i + " , " + player);
             PlayerMinigameCaps[i].SetActive(true);
             PlayerMinigameCaps[i].GetComponent<MeshRenderer>().material = PlayerMats[player - 1];
             MiniPosText[i].SetActive(true);
+            GetComponent<StackerController>().enabled = false;
+            switch (i)
+            {
+                case 0:
+                    Players[player-1].GetComponent<Player>().CoinChange(10);
+                    break;
+                case 1:
+                    Players[player - 1].GetComponent<Player>().CoinChange(6);
+                    break;
+                case 2:
+                    Players[player - 1].GetComponent<Player>().CoinChange(3);
+                    break;
+                case 3:
+                    Players[player - 1].GetComponent<Player>().CoinChange(1);
+                    break;
+                default:
+                    Players[player - 1].GetComponent<Player>().CoinChange(2);
+                    break;
+            }
             i++;
         }
     }
@@ -388,7 +415,36 @@ public class GameController : MonoBehaviour
         MinigameEndUI.SetActive(true);
         MinigameEndUI.GetComponent<Animator>().SetTrigger("Show");
         Invoke("ResetTrigger", 1.5f);
-        
+        StartCoroutine(ExitMinigame());
+    }
+
+    private IEnumerator ExitMinigame()
+    {
+        yield return new WaitForSeconds(7.5f);
+        Fader.GetComponent<Fading>().FadeIn(15.0f);
+        yield return new WaitForSeconds(0.5f);
+    
+        gameObject.GetComponent<SceneController>().unloadStacker();
+
+        c.enabled = true;
+        Minigamec.enabled = false;
+        foreach (GameObject p in Players)
+        {
+            Vector3 position = p.GetComponent<Player>().PlayerLocation.transform.position;
+            position.y = 0.5f;
+            p.transform.position = position;
+            GameObject.Find("Player " + p.GetComponent<Player>().GetPlayerNo() + " Text").GetComponent<PlayerUI>().Show();
+            p.GetComponent<PlayerInput>().SwitchCurrentActionMap("Player");
+        }
+
+        PlayersGo = 0;
+        TurnNumber++;
+        CurrentPlayer = RollOrder[PlayersGo];        
+        yield return new WaitForSeconds(1.5f);
+        StartCoroutine(ViewCamera());
+        Fader.GetComponent<Fading>().FadeOut(15.0f);
+        MinigameEndUI.SetActive(false);
+
     }
 
     private void ResetTrigger()

@@ -25,6 +25,11 @@ public class DiceRoll : MonoBehaviour
         diceRolled = false;
     }
 
+    public void EndRoll()
+    {
+        GetComponent<TextMeshProUGUI>().enabled = false;
+    }
+
     public void DiceRolled(int v)
     {
         diceRolled = true;

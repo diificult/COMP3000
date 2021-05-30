@@ -22,19 +22,28 @@ public class Player : MonoBehaviour
 
     private bool SplitSpot = false;
 
+    private bool currentlyRolling = false;
+
+    private bool CheckingDiamondPurchase = false;
+
     private bool test = false;
+
+
+    private PlayerUI ui;
+    public Canvas PlayerUI;
 
     [SerializeField]
     private int PlayerNumber;
 
     public Material PlayerColour;
 
-    public delegate void SendCoins(int coins, int player);
-    public static event SendCoins OnSendCoins;
 
     private Dictionary<string, GameObject> DirectionChoices = new Dictionary<string, GameObject>();
 
     private int Coins;
+    private int Diamonds;
+
+
     GameController GameControllerScript;
     DiceRoll DiceRollScript;
 
@@ -55,21 +64,13 @@ public class Player : MonoBehaviour
 
         PlayerColour = GameControllerScript.getPlayerColour(PlayerNumber);
         GetComponent<MeshRenderer>().material = PlayerColour;
+        ui = GameObject.Find("Player " + PlayerNumber + " Text").GetComponent<PlayerUI>();
+        ui.Show();
+
+        PlayerUI = GameObject.Find("PlayerUI").GetComponent<Canvas>();
+
     }
 
-
-    public void MoveLevelTest(CallbackContext c)
-    {
-        if (!test)
-        {
-            
-            Debug.Log("LOADING LEVEL FROM" + gameObject.name + gameObject.scene.name + this.name + "  " + c.action + "  " + c.control);
-            // GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            //cube.transform.position = new Vector3(0, 0.5f, 0);
-            GameObject.Find("GameController").GetComponent<GameController>().LoadMinigameGame();
-            test = true;
-        }
-    }
 
 
     //Controller Input for start game
@@ -83,6 +84,7 @@ public class Player : MonoBehaviour
         } else
         {
             GameControllerScript = GameObject.Find("GameController").GetComponent<GameController>();
+            Debug.Log("Calling with " + PlayerNumber);
             GameControllerScript.ReadyPlayer(PlayerNumber);
         }
     }
@@ -93,16 +95,12 @@ public class Player : MonoBehaviour
     {
         gameObject.transform.GetChild(0).gameObject.SetActive(true);
         GameStarted = true;
-        Debug.Log("GameStarted");
-    }
-
-    public void MainGameStart() { 
     }
 
 
     public void allowedToRoll()
     {
-        CanRoll = true;
+        CanRoll = true; 
     }
 
     public void RollDice()
@@ -115,19 +113,46 @@ public class Player : MonoBehaviour
                 int Roll = Random.Range(1, 11);
                 GetComponentInChildren<PositionDiceRoll>().DiceRolled(Roll);
                 GameControllerScript = GameObject.Find("GameController").GetComponent<GameController>();
-                Debug.Log(PlayerNumber +" , " + Roll);
                 GameControllerScript.PreGameRolled(PlayerNumber, Roll);
             }
             else if (CanRoll)
             {
                 CanRoll = false;
-                MovesLeft = Random.Range(1, 11);
+                MovesLeft = Random.Range(1, 25);
                 DiceRollScript.GetComponent<DiceRoll>().DiceRolled(MovesLeft);
                 if (!CheckSpot())
                 {
                     Move();
                 }
-            }
+            } else if (CheckingDiamondPurchase)
+            {
+                CheckingDiamondPurchase = false;
+                if (Coins >= 10)
+                {
+                    
+                    AddDiamonds();
+                    CoinChange(-10);
+                    GameControllerScript.DecideCollectableSpot();
+                    GameObject.Find("DiamondPurchaseUI").GetComponent<Canvas>().enabled = false;
+                    if (MovesLeft > 0) Move();
+                    if (MovesLeft <= 0)
+                    {
+                        DiceRollScript.GetComponent<DiceRoll>().EndRoll();
+                        GameControllerScript.EndOfGo();
+                        landonspot();
+                    }
+                } else
+                {
+                    GameObject.Find("DiamondPurchaseUI").GetComponent<Canvas>().enabled = false;
+                    if (MovesLeft > 0) Move();
+                    if (MovesLeft <= 0)
+                    {
+                        DiceRollScript.GetComponent<DiceRoll>().EndRoll();
+                        GameControllerScript.EndOfGo();
+                        landonspot();
+                    }
+                }
+            } 
         }
     }
 
@@ -169,7 +194,8 @@ public class Player : MonoBehaviour
             return true;
         } else if (PlayerLocation.GetComponent<SpotPointers>().GetSpotType() == 4)
         {
-
+            CheckingDiamondPurchase = true;
+            GameObject.Find("DiamondPurchaseUI").GetComponent<Canvas>().enabled = true;
             return true;
         }
         return false;
@@ -200,7 +226,9 @@ public class Player : MonoBehaviour
 
         if (MovesLeft <= 0)
         {
+            DiceRollScript.GetComponent<DiceRoll>().EndRoll();
             GameControllerScript.EndOfGo();
+            currentlyRolling = false;
             landonspot();
         }
         else if (!CheckSpot())
@@ -210,14 +238,20 @@ public class Player : MonoBehaviour
 
     }
 
+
+    //Roll dice button action
+    //Once the player wants to roll the dice run this code.
     public void RollButton()
     {
         if (GameStarted)
         {
-            if (GameControllerScript.CurrentPlayer == gameObject)
+            //Makes sure it is the players turn and that they arnt already currently rolling
+            if (GameControllerScript.CurrentPlayer == gameObject && !currentlyRolling)
             {
+                currentlyRolling = true;
                 allowedToRoll();
                 DiceRollScript.NewTurn();
+                PlayerUI.enabled = false;
             }
         }
     }
@@ -227,13 +261,16 @@ public class Player : MonoBehaviour
         //Prevent the player pressing the button if they arent on a split spot
         if (SplitSpot)
         {
+            //Disables all arrows 
             GameObject.Find("ArrowWest").GetComponent<Image>().enabled = false;
             GameObject.Find("ArrowNorth").GetComponent<Image>().enabled = false;
             GameObject.Find("ArrowSouth").GetComponent<Image>().enabled = false;
             GameObject.Find("ArrowEast").GetComponent<Image>().enabled = false;
             SplitSpot = false;
+            //Makes sure that there are moves left, but this shouldn't be an issue as it should run in next go anyways
             if (MovesLeft > 0)
             {
+                //Continues the player in the direction.
                 DiceRollScript.ChangeValue(MovesLeft);
                 MovesLeft--;
                 GameObject NextSpot = DirectionChoices[dir.ToString()];
@@ -277,8 +314,14 @@ public class Player : MonoBehaviour
     {
         Coins += change;
         if (Coins < 0) Coins = 0;
-      //  CoinText.text = "" + Coins;
+        ui.SetValue(2, Coins);
     } 
+
+    public void AddDiamonds()
+    {
+        Diamonds++;
+        ui.SetValue(3, Diamonds);
+    }
 
     public int GetPlayerNo()
     {

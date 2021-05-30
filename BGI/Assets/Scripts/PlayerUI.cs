@@ -6,32 +6,19 @@ using TMPro;
 public class PlayerUI : MonoBehaviour
 {
 
-    public GameObject UIElement;
-    private int noPlayers = 0;
-
-
-    [SerializeField]
-    private List<GameObject> UIs; 
-
-
-    public void AddPlayer() {
-        noPlayers++;
-        var UI = Instantiate(UIElement, new Vector3(0, 50 * noPlayers, 0), Quaternion.identity);
-        UIs.Add(UI);
-        UI.transform.parent = gameObject.transform;
-       
+    public void Show() {
+        gameObject.BroadcastMessage("ShowTMPUI", SendMessageOptions.DontRequireReceiver);
+        GetComponent<TextMeshProUGUI>().enabled = true;
     }
 
-
-    // Start is called before the first frame update
-    void Start()
+    public void Hide()
     {
-        
+        gameObject.BroadcastMessage("HideTMPUI", SendMessageOptions.DontRequireReceiver);
+        GetComponent<TextMeshProUGUI>().enabled = false;
     }
-     
-    // Update is called once per frame
-    void Update()
+
+    public void SetValue(int position, int value)
     {
-        
+        transform.GetChild(position).GetComponent<TextMeshProUGUI>().text = value + "";
     }
 }

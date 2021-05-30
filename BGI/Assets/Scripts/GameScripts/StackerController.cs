@@ -8,6 +8,7 @@ public class StackerController : MonoBehaviour
 
     public TextMeshProUGUI[] FinishedText = new TextMeshProUGUI[4];
 
+    
 
     private int[] PlayerWinOrder;
     private List<int> players = new List<int>();
@@ -20,11 +21,13 @@ public class StackerController : MonoBehaviour
     private void OnEnable()
     {
         noPlayers = GameObject.FindGameObjectsWithTag("Player").Length;
+        players = new List<int>();
         for (int i = 1; i <= noPlayers; i++)
         {
             players.Add(i);    
         }
         PlayerWinOrder = new int[players.Count];
+        finished = 0;
     }
 
 
