@@ -47,9 +47,16 @@ public class Player : MonoBehaviour
     GameController GameControllerScript;
     DiceRoll DiceRollScript;
 
+
+    public AudioClip ClickClip;
+    public AudioClip DiceClip;
+    public AudioSource audio;
+
+
     void Start()
     {
-        
+
+        audio = GetComponent<AudioSource>();
         GameControllerScript = GameObject.Find("GameController").GetComponent<GameController>();
         GameControllerScript.JoinPlayer(gameObject);
 
@@ -78,11 +85,16 @@ public class Player : MonoBehaviour
     {
         if (!GameStarted)
         {
+
+            audio.clip = ClickClip;
+            audio.Play();
             GameControllerScript = GameObject.Find("GameController").GetComponent<GameController>();
             GameStarted = true;
             GameControllerScript.GameLoad();
         } else
         {
+            audio.clip = ClickClip;
+            audio.Play();
             GameControllerScript = GameObject.Find("GameController").GetComponent<GameController>();
             Debug.Log("Calling with " + PlayerNumber);
             GameControllerScript.ReadyPlayer(PlayerNumber);
@@ -109,6 +121,7 @@ public class Player : MonoBehaviour
         {
             if (!PosRolled)
             {
+                audio.PlayOneShot(DiceClip, 0.5f);
                 PosRolled = true;
                 int Roll = Random.Range(1, 11);
                 GetComponentInChildren<PositionDiceRoll>().DiceRolled(Roll);
@@ -120,6 +133,8 @@ public class Player : MonoBehaviour
                 CanRoll = false;
                 MovesLeft = Random.Range(1, 25);
                 DiceRollScript.GetComponent<DiceRoll>().DiceRolled(MovesLeft);
+               
+                audio.PlayOneShot(DiceClip, 0.5f);
                 if (!CheckSpot())
                 {
                     Move();
@@ -129,7 +144,8 @@ public class Player : MonoBehaviour
                 CheckingDiamondPurchase = false;
                 if (Coins >= 10)
                 {
-                    
+                    audio.clip = DiceClip;
+                    audio.Play();
                     AddDiamonds();
                     CoinChange(-10);
                     GameControllerScript.DecideCollectableSpot();
@@ -143,6 +159,8 @@ public class Player : MonoBehaviour
                     }
                 } else
                 {
+                    audio.clip = DiceClip;
+                    audio.Play();
                     GameObject.Find("DiamondPurchaseUI").GetComponent<Canvas>().enabled = false;
                     if (MovesLeft > 0) Move();
                     if (MovesLeft <= 0)
@@ -248,6 +266,8 @@ public class Player : MonoBehaviour
             //Makes sure it is the players turn and that they arnt already currently rolling
             if (GameControllerScript.CurrentPlayer == gameObject && !currentlyRolling)
             {
+                audio.clip = ClickClip;
+                audio.Play();
                 currentlyRolling = true;
                 allowedToRoll();
                 DiceRollScript.NewTurn();
@@ -261,6 +281,8 @@ public class Player : MonoBehaviour
         //Prevent the player pressing the button if they arent on a split spot
         if (SplitSpot)
         {
+            audio.clip = ClickClip;
+            audio.Play();
             //Disables all arrows 
             GameObject.Find("ArrowWest").GetComponent<Image>().enabled = false;
             GameObject.Find("ArrowNorth").GetComponent<Image>().enabled = false;
@@ -327,6 +349,8 @@ public class Player : MonoBehaviour
     {
         return PlayerNumber;
     }
+
+    
 
     public void DeviceLost()
     {

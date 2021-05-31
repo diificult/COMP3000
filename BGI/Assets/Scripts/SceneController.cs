@@ -33,7 +33,7 @@ public class SceneController : MonoBehaviour
 
     public void LoadGame()
     {
-        SceneManager.LoadScene("Sample Scene");
+        SceneManager.LoadScene("SampleScene");
     }
 
 }

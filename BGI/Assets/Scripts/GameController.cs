@@ -107,23 +107,25 @@ public class GameController : MonoBehaviour
 
     public void GameLoad()
     {
-        JoinUI.gameObject.SetActive(false);
-        Transform AveragePosition = transform;
-        CinemachineTargetGroup group;
-        int i = 0;
-        foreach (GameObject p in Players)
+        if (NoPlayers > 1)
         {
-            p.SendMessage("GameStarting", SendMessageOptions.RequireReceiver);
-            AveragePosition.position += p.transform.position;
-            i++;
-        }
+            JoinUI.gameObject.SetActive(false);
+            Transform AveragePosition = transform;
+            CinemachineTargetGroup group;
+            int i = 0;
+            foreach (GameObject p in Players)
+            {
+                p.SendMessage("GameStarting", SendMessageOptions.RequireReceiver);
+                AveragePosition.position += p.transform.position;
+                i++;
+            }
 
-        AveragePosition.position = AveragePosition.position / i;
-        vcam.LookAt = AveragePosition;
-        vcam.Follow = AveragePosition;
-        PreGameRoll();
-        DecideCollectableSpot();
-        
+            AveragePosition.position = AveragePosition.position / i;
+            vcam.LookAt = AveragePosition;
+            vcam.Follow = AveragePosition;
+            PreGameRoll();
+            DecideCollectableSpot();
+        }
     }
 
     private void PreGameRoll()
